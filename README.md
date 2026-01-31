@@ -22,55 +22,33 @@ docker pull ghcr.io/intoffset/pandoc-pdf-ja
 ### MarkdownからPDFへの変換
 
 ```bash
-docker run --rm -v "$(pwd):/workspace" -w /workspace \
-  ghcr.io/intoffset/pandoc-pdf-ja \
-  pandoc input.md \
-    --pdf-engine=lualatex \
-    --include-in-header=/latex/header.tex \
-    -V geometry:margin=2cm \
-    -V documentclass=article \
-    -V classoption=a4paper \
-    -o output.pdf
+# 基本的な変換（input.pdf が生成される）
+docker run --rm -v "$(pwd):/workspace" ghcr.io/intoffset/pandoc-pdf-ja input.md
+
+# 出力ファイルを指定
+docker run --rm -v "$(pwd):/workspace" ghcr.io/intoffset/pandoc-pdf-ja input.md -o output.pdf
+
+# 目次付き
+docker run --rm -v "$(pwd):/workspace" ghcr.io/intoffset/pandoc-pdf-ja input.md --toc
+
+# 目次とセクション番号付き
+docker run --rm -v "$(pwd):/workspace" ghcr.io/intoffset/pandoc-pdf-ja input.md --toc --number-sections
 ```
 
-### ヘルパースクリプトの使用
+### pandocを直接実行
 
-`scripts/`ディレクトリからスクリプトをダウンロードして使用できます：
+`pandoc`を最初の引数にすると、デフォルト設定をバイパスして直接pandocを実行できます：
 
 ```bash
-# MarkdownからPDFへ変換
-./scripts/build-pdf.sh input.md output.pdf
-
-# 目次とセクション番号付きで変換
-./scripts/build-pdf.sh input.md output.pdf --toc --number-sections
-
-# プレビュー画像を生成
-./scripts/preview-pdf.sh output.pdf preview/
+docker run --rm -v "$(pwd):/workspace" ghcr.io/intoffset/pandoc-pdf-ja pandoc --version
 ```
 
-## スクリプトオプション
+### ヘルパースクリプト
 
-### build-pdf.sh
+`scripts/`ディレクトリには追加のヘルパースクリプトがあります：
 
-```
-使用方法: build-pdf.sh <input.md> <output.pdf> [options]
-
-オプション:
-  --toc               目次を含める
-  --number-sections   セクションに番号を付ける
-  --title-page FILE   タイトルページ用のMarkdownファイルを先頭に追加
-  --latex-header FILE カスタムLaTeXヘッダーファイルを使用
-```
-
-### preview-pdf.sh
-
-```
-使用方法: preview-pdf.sh <input.pdf> [output-dir]
-
-出力:
-  output-dir（デフォルト: PDFと同じディレクトリ）にPNGファイルを作成
-  ファイル名: <basename>-page-001.png, <basename>-page-002.png, ...
-```
+- `build-pdf.sh` - タイトルページやカスタムヘッダーなどの高度なオプション付き変換
+- `preview-pdf.sh` - PDFからPNGプレビュー画像を生成
 
 ## ローカルでのビルド
 

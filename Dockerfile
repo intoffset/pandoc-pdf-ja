@@ -25,8 +25,9 @@ RUN apt-get update && \
 # Set working directory
 WORKDIR /workspace
 
-# Copy LaTeX header files into the image
+# Copy LaTeX header files and entrypoint script
 COPY latex/ /latex/
+COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Default command
-CMD ["pandoc", "--version"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
