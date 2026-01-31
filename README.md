@@ -1,29 +1,29 @@
 # pandoc-pdf-ja
 
-Docker image for converting Markdown to PDF with Japanese text and emoji support.
+日本語テキストと絵文字に対応した、MarkdownからPDFへの変換用Dockerイメージです。
 
-## Features
+## 特徴
 
-- Japanese text rendering with Noto Sans CJK JP
-- Emoji support with Noto Color Emoji
-- Table of contents generation
-- Section numbering
-- Custom LaTeX headers
-- PDF to PNG preview generation
+- Noto Sans CJK JPによる日本語レンダリング
+- Noto Color Emojiによる絵文字サポート
+- 目次の自動生成
+- セクション番号付け
+- カスタムLaTeXヘッダー
+- PDFからPNGプレビュー画像の生成
 
-## Quick Start
+## クイックスタート
 
-### Pull the image
+### イメージの取得
 
 ```bash
-docker pull intoffset/pandoc-pdf-ja
+docker pull ghcr.io/intoffset/pandoc-pdf-ja
 ```
 
-### Convert Markdown to PDF
+### MarkdownからPDFへの変換
 
 ```bash
 docker run --rm -v "$(pwd):/workspace" -w /workspace \
-  intoffset/pandoc-pdf-ja \
+  ghcr.io/intoffset/pandoc-pdf-ja \
   pandoc input.md \
     --pdf-engine=lualatex \
     --include-in-header=/latex/header.tex \
@@ -33,51 +33,51 @@ docker run --rm -v "$(pwd):/workspace" -w /workspace \
     -o output.pdf
 ```
 
-### Using helper scripts
+### ヘルパースクリプトの使用
 
-Download the scripts from `scripts/` directory:
+`scripts/`ディレクトリからスクリプトをダウンロードして使用できます：
 
 ```bash
-# Convert Markdown to PDF
+# MarkdownからPDFへ変換
 ./scripts/build-pdf.sh input.md output.pdf
 
-# With table of contents and numbered sections
+# 目次とセクション番号付きで変換
 ./scripts/build-pdf.sh input.md output.pdf --toc --number-sections
 
-# Generate preview images
+# プレビュー画像を生成
 ./scripts/preview-pdf.sh output.pdf preview/
 ```
 
-## Script Options
+## スクリプトオプション
 
 ### build-pdf.sh
 
 ```
-Usage: build-pdf.sh <input.md> <output.pdf> [options]
+使用方法: build-pdf.sh <input.md> <output.pdf> [options]
 
-Options:
-  --toc               Include table of contents
-  --number-sections   Number the sections
-  --title-page FILE   Prepend a title page markdown file
-  --latex-header FILE Custom LaTeX header file
+オプション:
+  --toc               目次を含める
+  --number-sections   セクションに番号を付ける
+  --title-page FILE   タイトルページ用のMarkdownファイルを先頭に追加
+  --latex-header FILE カスタムLaTeXヘッダーファイルを使用
 ```
 
 ### preview-pdf.sh
 
 ```
-Usage: preview-pdf.sh <input.pdf> [output-dir]
+使用方法: preview-pdf.sh <input.pdf> [output-dir]
 
-Output:
-  Creates PNG files in output-dir (default: same directory as PDF)
-  Named as: <basename>-page-001.png, <basename>-page-002.png, etc.
+出力:
+  output-dir（デフォルト: PDFと同じディレクトリ）にPNGファイルを作成
+  ファイル名: <basename>-page-001.png, <basename>-page-002.png, ...
 ```
 
-## Building locally
+## ローカルでのビルド
 
 ```bash
 docker build -t pandoc-pdf-ja .
 ```
 
-## License
+## ライセンス
 
 MIT
