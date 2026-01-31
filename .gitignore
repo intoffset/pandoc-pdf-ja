@@ -1,0 +1,21 @@
+# Output files
+*.pdf
+*.png
+
+# Temporary files
+.tmp-*
+*.aux
+*.log
+*.out
+*.toc
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/

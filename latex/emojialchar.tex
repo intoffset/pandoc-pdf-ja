@@ -1,0 +1,17 @@
+% Treat emoji codepoints as ALchar (non-Japanese) to prevent rendering issues
+% This ensures emojis are handled by the fallback emoji font instead of Japanese fonts
+
+% Define character range 33 to include all emoji-related Unicode blocks
+\ltjdefcharrange{33}{
+  "1F000-"1FAFF, % Main emoji blocks (includes most emojis)
+  "1F1E6-"1F1FF, % Regional Indicator symbols (country flags)
+  "1F3FB-"1F3FF, % Emoji skin tone modifiers
+  "200D,          % Zero Width Joiner (used for emoji sequences)
+  "FE0F,          % Variation Selector-16 (emoji presentation)
+  "2000-"2BFF,    % Miscellaneous symbols and arrows
+  "E0000-"E007F   % Tags (used for flag sequences)
+}
+
+% Set character range 33 as ALchar (non-Japanese)
+% Negative number means ALchar, positive means JAchar
+\ltjsetparameter{jacharrange={-33}}

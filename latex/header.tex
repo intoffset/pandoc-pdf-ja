@@ -1,0 +1,34 @@
+\usepackage[noto-otf]{luatexja-preset}
+\usepackage{etoolbox}
+
+% Import emojialchar.tex to treat all emoji codepoints as ALchar (non-Japanese)
+% This prevents emoji from being split when some codepoints are treated as JAchar
+\input{/latex/emojialchar.tex}
+
+% Emoji font fallback configuration
+\directlua{
+  luaotfload.add_fallback("EmojiFont", {
+    "Noto Color Emoji:mode=harf"
+  })
+}
+
+% Set fonts with emoji fallback
+\setmainfont{Noto Sans}[RawFeature={fallback=EmojiFont}]
+\setmainjfont{Noto Sans CJK JP}[RawFeature={fallback=EmojiFont}]
+
+% Add page break after table of contents
+\appto\tableofcontents{\clearpage}
+
+% Increase line spacing (1.3 = 130% of default)
+\linespread{1.3}
+
+% Table formatting
+\usepackage{longtable}
+\usepackage{array}
+
+% Set table row height
+\renewcommand{\arraystretch}{1.3}
+
+% Make tables span full page width (left and right margins = 0)
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
