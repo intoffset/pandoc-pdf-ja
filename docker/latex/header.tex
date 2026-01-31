@@ -1,5 +1,21 @@
 \usepackage[noto-otf]{luatexja-preset}
 \usepackage{etoolbox}
+\usepackage{xcolor}
+
+% Hyperlink styling
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!70!black,
+    urlcolor=blue!80!black,
+    citecolor=green!50!black
+}
+
+% Code block background color (Pandoc uses Shaded environment)
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{245, 245, 245}
+
+% Change TOC title to Japanese
+\renewcommand{\contentsname}{目次}
 
 % Import emojialchar.tex to treat all emoji codepoints as ALchar (non-Japanese)
 % This prevents emoji from being split when some codepoints are treated as JAchar

@@ -8,6 +8,7 @@ set -e
 DEFAULT_OPTS=(
     --pdf-engine=lualatex
     --include-in-header=/latex/header.tex
+    --highlight-style=tango
     -V geometry:margin=2cm
     -V documentclass=article
     -V classoption=a4paper
@@ -27,6 +28,9 @@ if [ $# -eq 0 ]; then
     echo "  # With table of contents"
     echo "  docker run --rm -v \"\$(pwd):/workspace\" ghcr.io/intoffset/pandoc-pdf-ja input.md --toc"
     echo ""
+    echo "  # With title page (requires YAML frontmatter with title, author, date)"
+    echo "  docker run --rm -v \"\$(pwd):/workspace\" ghcr.io/intoffset/pandoc-pdf-ja input.md --title-page --toc"
+    echo ""
     echo "  # Run raw pandoc command"
     echo "  docker run --rm -v \"\$(pwd):/workspace\" ghcr.io/intoffset/pandoc-pdf-ja pandoc --version"
     exit 0
@@ -43,6 +47,7 @@ shift
 
 # Parse remaining arguments
 OUTPUT=""
+TITLE_PAGE=""
 EXTRA_OPTS=()
 
 while [ $# -gt 0 ]; do
@@ -51,12 +56,21 @@ while [ $# -gt 0 ]; do
             OUTPUT="$2"
             shift 2
             ;;
+        --title-page)
+            TITLE_PAGE="true"
+            shift
+            ;;
         *)
             EXTRA_OPTS+=("$1")
             shift
             ;;
     esac
 done
+
+# Add title page if requested
+if [ "$TITLE_PAGE" = "true" ]; then
+    EXTRA_OPTS+=(--include-before-body=/latex/titlepage.tex)
+fi
 
 # If no output specified, derive from input filename
 if [ -z "$OUTPUT" ]; then
