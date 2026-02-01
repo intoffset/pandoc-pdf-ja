@@ -69,6 +69,7 @@ done
 
 # Add title page if requested
 if [ "$TITLE_PAGE" = "true" ]; then
+    EXTRA_OPTS+=(--include-in-header=/latex/disable-maketitle.tex)
     EXTRA_OPTS+=(--include-before-body=/latex/titlepage.tex)
 fi
 

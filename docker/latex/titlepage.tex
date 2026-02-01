@@ -1,25 +1,20 @@
 % Title page template for pandoc-pdf-ja
-% Uses LaTeX macros set by Pandoc: \@title, \@author, \@date
+% Uses LaTeX macros set by Pandoc: \@title, \@author
 % Uses thispagestyle instead of titlepage environment to avoid blank page
 
 \makeatletter
 \thispagestyle{empty}
 \begin{center}
-    \vspace*{3cm}
+    \vspace*{\fill}
 
     {\Huge\bfseries \@title\par}
 
     \vspace{2cm}
 
     {\Large \@author\par}
-    \vspace{1cm}
 
-    {\large \@date\par}
-
-    \vfill
+    \vspace*{\fill}
 \end{center}
 \newpage
 
-% Disable Pandoc's default \maketitle to prevent duplicate title page
-\let\maketitle\relax
 \makeatother
